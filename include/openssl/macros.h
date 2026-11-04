@@ -53,11 +53,17 @@
     __pragma(warning(push)) __pragma(warning(disable : 4996))
 #define OSSL_END_ALLOW_DEPRECATED __pragma(warning(pop))
 #elif defined(__GNUC__)
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
 #define OSSL_DEPRECATED(since) \
     __attribute__((deprecated("Since OpenSSL " #since)))
 #define OSSL_DEPRECATED_FOR(since, message) \
     __attribute__((deprecated("Since OpenSSL " #since "; " message)))
 #define OSSL_DEPRECATED_MESSAGE(message) __attribute__((deprecated(message)))
+#else
+#define OSSL_DEPRECATED(since) __attribute__((deprecated))
+#define OSSL_DEPRECATED_FOR(since, message) __attribute__((deprecated))
+#define OSSL_DEPRECATED_MESSAGE(message) __attribute__((deprecated))
+#endif
 #define OSSL_BEGIN_ALLOW_DEPRECATED \
     _Pragma("GCC diagnostic push")  \
         _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
