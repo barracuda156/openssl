@@ -45,7 +45,7 @@ IF[{- !$disabled{asm} -}]
   $ECASM_ppc32=
   $ECASM_ppc64=ecp_nistz256.c ecp_ppc.c ecp_nistz256-ppc64.s
   $ECDEF_ppc64=ECP_NISTZ256_ASM
-  IF[{- !$disabled{'ec_nistp_64_gcc_128'} -}]
+  IF[{- !$disabled{'ec_nistp_64_gcc_128'} && $target{sys_id} ne "MACOSX" -}]
     $ECASM_ppc64=$ECASM_ppc64 ecp_nistp384-ppc64.s ecp_nistp521-ppc64.s
     $ECDEF_ppc64=$ECDEF_ppc64 ECP_NISTP384_ASM ECP_NISTP521_ASM
     INCLUDE[ecp_nistp384.o]=..
