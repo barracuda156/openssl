@@ -64,10 +64,15 @@
 #define OSSL_DEPRECATED_FOR(since, message) __attribute__((deprecated))
 #define OSSL_DEPRECATED_MESSAGE(message) __attribute__((deprecated))
 #endif
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
 #define OSSL_BEGIN_ALLOW_DEPRECATED \
     _Pragma("GCC diagnostic push")  \
         _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
 #define OSSL_END_ALLOW_DEPRECATED _Pragma("GCC diagnostic pop")
+#else
+#define OSSL_BEGIN_ALLOW_DEPRECATED
+#define OSSL_END_ALLOW_DEPRECATED
+#endif
 #elif defined(__SUNPRO_C)
 #if (__SUNPRO_C >= 0x5130)
 #define OSSL_DEPRECATED(since) __attribute__((deprecated))
